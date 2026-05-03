@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CpmSticker - Ekoş Tam Baza</title>
+    <style>
+        :root {
+            --primary: #007bff;
+            --secondary: #ff4500;
+            --sticker-color: #28a745;
+            --bg: #f0f2f5;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .header {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            position: sticky;
+            top: 5px;
+            z-index: 100;
+        }
+
+        .header h2 { margin: 0 0 10px 0; font-size: 22px; color: var(--primary); }
+
+        .search-box {
+            width: 90%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .section-title {
+            text-align: left;
+            margin: 20px 5px 12px;
+            font-size: 17px;
+            font-weight: bold;
+            border-left: 5px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .tire-title { border-left-color: var(--secondary); color: var(--secondary); }
+        .sticker-title { border-left-color: var(--sticker-color); color: var(--sticker-color); }
+        
+        .emoji-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .emoji-card {
+            background: white;
+            padding: 20px 10px;
+            border-radius: 18px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .emoji-card:active { transform: scale(0.95); background: #f9f9f9; }
+        .emoji-title { font-size: 12px; color: #666; margin-bottom: 10px; font-weight: bold; }
+        .emoji-icon { font-size: 18px; color: #1a1a1a; word-break: break-all; }
+        
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 14px;
+            position: fixed;
+            z-index: 1000;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #toast.show { visibility: visible; animation: fadeInOut 2s; }
+        @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>CpmSticker</h2>
+        <input type="text" id="searchInput" class="search-box" placeholder="Stiker və ya kod axtar...">
+    </div>
+
+    <div class="section-title tire-title">Lastik Kodları</div>
+    <div class="emoji-container">
+        <div class="emoji-card" onclick="copyText('█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█<size=+99999999999999999999>█████████</size>', '1 Renkli Lastik')">
+            <div class="emoji-title">1 Renkli Lastik</div>
+            <div class="emoji-icon">█ ███</div>
+        </div>
+        <div class="emoji-card" onclick="copyText('█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█\n█<size=+99999999999999999999>█<color=blue>█</color><color=red>█</color></size>█', '3 Renkli Lastik')">
+            <div class="emoji-title">3 Renkli Lastik</div>
+            <div class="emoji-icon">█ 🟦🟥</div>
+        </div>
+        <div class="emoji-card" onclick="copyText('<color=yellow>█</color><color=blue>███████</color>▄▀▄▀', 'Formula Lastik')">
+            <div class="emoji-title">Formula Lastik</div>
+            <div class="emoji-icon">🏎️ Formula</div>
+        </div>
+        <div class="emoji-card" onclick="copyText('▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄', 'Yanık Lastik')">
+            <div class="emoji-title">Yanık Lastik</div>
+            <div class="emoji-icon">▄▄▄▄</div>
+        </div>
+    </div>
+
+    <div class="section-title sticker-title">Sticker Yerləri</div>
+    <div class="emoji-container" id="emojiGrid">
+        
+        <div class="emoji-card" data-name="bmw nebz heartbeat" onclick="copyText('ﮩ٨ـﮩ٨ـﮩ٨ـﮩ٨ـﮩ٨𝐁𝐌𝐖٨ـﮩ٨ـﮩ٨ـﮩ٨ـ', 'BMW')">
+            <div class="emoji-title">BMW Nəbz</div>
+            <div class="emoji-icon">ﮩ٨ـ BMW</div>
+        </div>
+        <div class="emoji-card" data-name="red bull enerji bull" onclick="copyText('☆ 𝐑𝐞𝐝 𝐁𝐮𝐥𝐥 𓄀', 'Red Bull')">
+            <div class="emoji-title">Red Bull</div>
+            <div class="emoji-icon">Red Bull 𓄀</div>
+        </div>
+        <div class="emoji-card" data-name="mafia mafya yazi" onclick="copyText('𝖒𝖆𝖋𝖎𝖆', 'Mafia')">
+            <div class="emoji-title">Mafia</div>
+            <div class="emoji-icon">𝖒𝖆𝖋𝖎𝖆</div>
+        </div>
+        <div class="emoji-card" data-name="renault loqo logo" onclick="copyText('《》', 'Renault')">
+            <div class="emoji-title">Renault</div>
+            <div class="emoji-icon">《》</div>
+        </div>
+        <div class="emoji-card" data-name="mercedes benz logo" onclick="copyText('㉦', 'Mercedes')">
+            <div class="emoji-title">Mercedes</div>
+            <div class="emoji-icon">㉦</div>
+        </div>
+        <div class="emoji-card" data-name="gtr nissan" onclick="copyText('ɢᴛ Ꭱ', 'GT-R')">
+            <div class="emoji-title">GT-R</div>
+            <div class="emoji-icon">ɢᴛ Ꭱ</div>
+        </div>
+        <div class="emoji-card" data-name="opel logo" onclick="copyText('Ꮻ', 'Opel Logo')">
+            <div class="emoji-title">Opel Logo</div>
+            <div class="emoji-icon">Ꮻ</div>
+        </div>
+
+        <div class="emoji-card" data-name="instagram ig logo" onclick="copyText('◯ ▢', 'Instagram')">
+            <div class="emoji-title">Instagram</div>
+            <div class="emoji-icon">◯ ▢</div>
+        </div>
+        <div class="emoji-card" data-name="spotify logo music" onclick="copyText('ᯤ ●', 'Spotify')">
+            <div class="emoji-title">Spotify</div>
+            <div class="emoji-icon">ᯤ ●</div>
+        </div>
+        <div class="emoji-card" data-name="pleyst muzik ses" onclick="copyText('▶︎ •၊၊||၊|။||||။‌‌‌‌‌၊|• 0:10', 'Pleyst')">
+            <div class="emoji-title">Pleyst</div>
+            <div class="emoji-icon">▶︎ •၊||</div>
+        </div>
+
+        <div class="emoji-card" data-name="cince harf 1" onclick="copyText('㊝', 'Çince Harf 1')">
+            <div class="emoji-title">Çince Harf 1</div>
+            <div class="emoji-icon">㊝</div>
+        </div>
+        <div class="emoji-card" data-name="cince harf 2" onclick="copyText('㍿', 'Çince Harf 2')">
+            <div class="emoji-title">Çince Harf 2</div>
+            <div class="emoji-icon">㍿</div>
+        </div>
+        <div class="emoji-card" data-name="buyutec arama" onclick="copyText('⌕', 'Büyütec')">
+            <div class="emoji-title">Büyütec</div>
+            <div class="emoji-icon">⌕</div>
+        </div>
+        <div class="emoji-card" data-name="yumuru daire circle" onclick="copyText('◯', 'Yumuru')">
+            <div class="emoji-title">Yumuru</div>
+            <div class="emoji-icon">◯</div>
+        </div>
+        <div class="emoji-card" data-name="yari yumuru" onclick="copyText('◡', 'Yarı Yumuru')">
+            <div class="emoji-title">Yarı Yumuru</div>
+            <div class="emoji-icon">◡</div>
+        </div>
+        <div class="emoji-card" data-name="dogru onay check" onclick="copyText('☑', 'Doğru')">
+            <div class="emoji-title">Doğru</div>
+            <div class="emoji-icon">☑</div>
+        </div>
+        <div class="emoji-card" data-name="3 nokta" onclick="copyText('⋮', '3 nokta')">
+            <div class="emoji-title">3 nokta</div>
+            <div class="emoji-icon">⋮</div>
+        </div>
+
+        <div class="emoji-card" data-name="yildiz ulduz star 6" onclick="copyText('✶', 'Yıldız 6')">
+            <div class="emoji-title">Yıldız 6</div>
+            <div class="emoji-icon">✶</div>
+        </div>
+        <div class="emoji-card" data-name="yildiz star 1" onclick="copyText('✵', 'Yıldız 1')">
+            <div class="emoji-title">Yıldız 1</div>
+            <div class="emoji-icon">✵</div>
+        </div>
+        <div class="emoji-card" data-name="yildiz star 2" onclick="copyText('✮', 'Yıldız 2')">
+            <div class="emoji-title">Yıldız 2</div>
+            <div class="emoji-icon">✮</div>
+        </div>
+        <div class="emoji-card" data-name="yildiz star 3" onclick="copyText('★', 'Yıldız 3')">
+            <div class="emoji-title">Yıldız 3</div>
+            <div class="emoji-icon">★</div>
+        </div>
+
+        <div class="emoji-card" data-name="kart iskambil poker" onclick="copyText('🃜🃚🃖🃁🂭🂺', 'Kart')">
+            <div class="emoji-title">Kart</div>
+            <div class="emoji-icon">🃜🃚🃖</div>
+        </div>
+        <div class="emoji-card" data-name="allah dini" onclick="copyText('﷽', 'Allah 1')">
+            <div class="emoji-title">Allah 1</div>
+            <div class="emoji-icon">﷽</div>
+        </div>
+        <div class="emoji-card" data-name="allah dini erebce" onclick="copyText('اَللّٰهُ', 'Allah 2')">
+            <div class="emoji-title">Allah 2</div>
+            <div class="emoji-icon">اَللّٰهُ</div>
+        </div>
+        <div class="emoji-card" data-name="qadagan stop yoxdur" onclick="copyText('⊘', 'Yoxdur')">
+            <div class="emoji-title">🚫 Simvol</div>
+            <div class="emoji-icon">⊘</div>
+        </div>
+        <div class="emoji-card" data-name="taksi taxi dama" onclick="copyText('▀▄▀▄▀▄', 'Taksi')">
+            <div class="emoji-title">Taksi</div>
+            <div class="emoji-icon">▀▄▀▄▀▄</div>
+        </div>
+        <div class="emoji-card" data-name="kuru kafa skull" onclick="copyText('☠︎︎', 'Kuru Kafa')">
+            <div class="emoji-title">Kuru Kafa</div>
+            <div class="emoji-icon">☠︎︎</div>
+        </div>
+        <div class="emoji-card" data-name="wi-fi internet" onclick="copyText('ᯤ', 'Wi-fi')">
+            <div class="emoji-title">Wi-fi</div>
+            <div class="emoji-icon">ᯤ</div>
+        </div>
+        <div class="emoji-card" data-name="kalp urek" onclick="copyText('❦︎', 'Kalp')">
+            <div class="emoji-title">Kalp</div>
+            <div class="emoji-icon">❦︎</div>
+        </div>
+        <div class="emoji-card" data-name="ak47 silah" onclick="copyText('︻デ═一', 'AK-47')">
+            <div class="emoji-title">AK-47</div>
+            <div class="emoji-icon">︻デ═一</div>
+        </div>
+        <div class="emoji-card" data-name="tac kral crown" onclick="copyText('♕', 'Kral Tacı')">
+            <div class="emoji-title">Kral Tacı</div>
+            <div class="emoji-icon">♕</div>
+        </div>
+        <div class="emoji-card" data-name="kamyon tir truck" onclick="copyText('⛟', 'Kamyon')">
+            <div class="emoji-title">Kamyon</div>
+            <div class="emoji-icon">⛟</div>
+        </div>
+        <div class="emoji-card" data-name="jdm logo" onclick="copyText('✺', 'JDM Logo')">
+            <div class="emoji-title">JDM Logo</div>
+            <div class="emoji-icon">✺</div>
+        </div>
+    </div>
+
+    <div id="toast">Kopyalandı! ✅</div>
+
+    <script>
+        function copyText(text, name) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            const toast = document.getElementById("toast");
+            toast.innerText = name + " kopyalandı! ✅";
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 2000);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.emoji-card');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name')?.toLowerCase() || "";
+                const title = card.querySelector('.emoji-title').innerText.toLowerCase();
+                card.style.display = (title.includes(term) || name.includes(term)) ? "flex" : "none";
+            });
+        });
+    </script>
+</body>
+</html>
+<div style="padding: 20px; background: white; border-radius: 20px; margin: 10px; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+    <h3 style="color: var(--primary); margin-top: 0;">Haqqımızda</h3>
+    <p style="font-size: 14px; line-height: 1.6; color: #555;">
+        Bu layihə <b>Ekoş</b> tərəfindən, CPM oyunçularının işini asanlaşdırmaq üçün yaradılıb.  
+        Bütün stikerlər və kodlar burada sənin üçün bir aradadır.
+    </p>
+    <p style="font-size: 12px; color: #999;">© 2026 CpmSticker - Ekoş Edition</p>
+</div>
